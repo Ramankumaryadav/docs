@@ -1,11 +1,10 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const { EnvironmentPlugin, ProvidePlugin } = require('webpack')
+const { EnvironmentPlugin } = require('webpack')
 const { reactBabelOptions } = require('./lib/react/babel')
 
 module.exports = {
-  mode: 'development',
   devtool: 'source-map', // this prevents webpack from using eval
   entry: './javascripts/index.js',
   output: {
@@ -13,7 +12,6 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/dist'
   },
-  stats: 'errors-only',
   module: {
     rules: [
       {
@@ -87,12 +85,6 @@ module.exports = {
         { from: 'node_modules/@primer/css/fonts', to: 'fonts' }
       ]
     }),
-    new EnvironmentPlugin({
-      NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
-      DEBUG: false
-    }),
-    new ProvidePlugin({
-      process: 'process/browser'
-    })
+    new EnvironmentPlugin(['NODE_ENV'])
   ]
 }
