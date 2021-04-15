@@ -199,12 +199,10 @@ if (!process.env.TEST_TRANSLATION) {
   const ghesReleaseNotesYamlRelPaths = ghesReleaseNotesYamlAbsPaths.map(p => path.relative(rootDir, p))
   releaseNotesToLint = zip(ghesReleaseNotesYamlRelPaths, ghesReleaseNotesYamlAbsPaths)
 } else {
-  // get all translated markdown or yaml files by comparing files changed to main branch
-  const changedFilesRelPaths = execSync('git diff --name-only origin/main | egrep "^translations/.*/.+.(yml|md)$"', { maxBuffer: 1024 * 1024 * 100 }).toString().split('\n')
-  if (changedFilesRelPaths === '') process.exit(0)
-
   console.log('testing translations.')
 
+  // get all translated markdown or yaml files by comparing files changed to main branch
+  const changedFilesRelPaths = execSync('git diff --name-only origin/main | egrep "^translations/.*/.+.(yml|md)$"', { maxBuffer: 1024 * 1024 * 100 }).toString().split('\n')
   console.log(`Found ${changedFilesRelPaths.length} translated files.`)
 
   const { mdRelPaths = [], ymlRelPaths = [], releaseNotesRelPaths = [] } = groupBy(changedFilesRelPaths, (path) => {

@@ -32,8 +32,7 @@ const ALLOW_LIST = new Set([
   'smimesign',
   'tweetsodium',
   'choosealicense.com',
-  'renaming',
-  'localization-support'
+  'renaming'
 ])
 
 describe('check for repository references', () => {
